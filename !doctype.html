@@ -4,11 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>会社名 - シングルページサイト</title>
-  <meta name="description" content="シンプルでレスポンシブな1ページサイト（フルスクリーンHero）のサンプルです。">
+  <meta name="description" content="ヘッダーとヒーローが少し重なるデザインのレスポンシブ1ページサイトサンプル">
 
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700;800&display=swap" rel="stylesheet">
 
   <style>
+    /* ===========================
+       :root / 基本変数
+       =========================== */
     :root{
       --bg:#f7f7fb;
       --card:#ffffff;
@@ -16,13 +19,15 @@
       --text:#111827;
       --muted:#6b7280;
       --radius:12px;
-      /* 全体の最大幅を広げる */
-      --max-width:1400px;
-      --header-height:64px;
-      /* ヒーロー背景画像（実際の画像URLに差し替えてください） */
+      --max-width:1400px;        /* 全体幅 */
+      --header-height:64px;      /* ヘッダー高さ */
+      --hero-overlap:28px;       /* ヘッダーとヒーローが重なる量（調整可） */
       --hero-img: url('https://images.unsplash.com/photo-1506765515384-028b60a970df?q=80&w=2000&auto=format&fit=crop&ixlib=rb-4.0.3&s=example');
     }
 
+    /* ===========================
+       リセット / 基本
+       =========================== */
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
@@ -35,7 +40,9 @@
       line-height:1.6;
     }
 
-    /* Header (固定) */
+    /* ===========================
+       Header（固定ヘッダー）
+       =========================== */
     header{
       position:fixed;
       top:0;
@@ -44,7 +51,7 @@
       height:var(--header-height);
       z-index:1200;
       backdrop-filter: blur(6px);
-      background:rgba(255,255,255,0.92);
+      background:rgba(255,255,255,0.96);
       border-bottom:1px solid rgba(15,23,42,0.04);
       display:flex;
       align-items:center;
@@ -58,113 +65,113 @@
       justify-content:space-between;
       width:100%;
     }
-    .logo{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      text-decoration:none;
-      color:var(--text);
-      font-weight:700;
-      font-size:18px;
-    }
-    .logo .mark{
-      width:36px;
-      height:36px;
-      background:var(--accent);
-      border-radius:8px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      color:#fff;
-      font-weight:700;
-      font-size:16px;
-      box-shadow:0 4px 12px rgba(11,118,239,0.12);
-    }
+    .logo{ display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text); font-weight:800; font-size:18px; }
+    .logo .mark{ width:36px; height:36px; background:var(--accent); border-radius:8px; display:inline-flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:16px; box-shadow:0 4px 12px rgba(11,118,239,0.12); }
 
-    /* Nav */
-    nav{
-      display:flex;
-      align-items:center;
-      gap:22px;
-    }
-    nav a{
-      text-decoration:none;
-      color:var(--text);
-      font-weight:600;
-      padding:8px 12px;
-      border-radius:8px;
-      transition:background .18s, color .18s;
-      font-size:15px;
-    }
-    nav a:hover, nav a.active{
-      background:rgba(11,118,239,0.08);
-      color:var(--accent);
-    }
+    nav{ display:flex; align-items:center; gap:22px; }
+    nav a{ text-decoration:none; color:var(--text); font-weight:600; padding:8px 12px; border-radius:8px; transition:background .18s, color .18s; font-size:15px; }
+    nav a:hover, nav a.active{ background:rgba(11,118,239,0.08); color:var(--accent); }
 
-    /* Hamburger for mobile */
-    .hamburger{
-      display:none;
-      width:44px;
-      height:44px;
-      border-radius:10px;
-      align-items:center;
-      justify-content:center;
-      cursor:pointer;
-      background:transparent;
-      border:none;
-    }
-    .hamburger .bar{
-      width:22px;
-      height:2px;
-      background:var(--text);
-      display:block;
-      position:relative;
-      transition:transform .25s ease, opacity .25s ease;
-    }
-    .hamburger .bar::before, .hamburger .bar::after{
-      content:"";
-      position:absolute;
-      left:0;
-      width:22px;
-      height:2px;
-      background:var(--text);
-      transition:transform .25s ease, top .25s ease, bottom .25s ease, opacity .25s ease;
-    }
-    .hamburger .bar::before{ top:-7px; }
-    .hamburger .bar::after{ bottom:-7px; }
+    .hamburger{ display:none; width:44px; height:44px; border-radius:10px; align-items:center; justify-content:center; cursor:pointer; background:transparent; border:none; }
+    .hamburger .bar{ width:22px; height:2px; background:var(--text); display:block; position:relative; transition:transform .25s ease, opacity .25s ease; }
+    .hamburger .bar::before, .hamburger .bar::after{ content:""; position:absolute; left:0; width:22px; height:2px; background:var(--text); transition:transform .25s ease, top .25s ease, bottom .25s ease, opacity .25s ease; }
+    .hamburger .bar::before{ top:-7px; } .hamburger .bar::after{ bottom:-7px; }
 
-    /* Mobile nav panel */
-    .mobile-nav{
-      display:none;
-      position:fixed;
-      top:var(--header-height);
-      left:0;
-      right:0;
-      background:linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.98));
-      border-bottom:1px solid rgba(15,23,42,0.04);
-      padding:12px 16px;
-      z-index:1190;
-    }
-    .mobile-nav a{
-      display:block;
-      padding:12px 8px;
-      border-radius:8px;
-      color:var(--text);
-      text-decoration:none;
-      font-weight:600;
-    }
+    .mobile-nav{ display:none; position:fixed; top:var(--header-height); left:0; right:0; background:linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.98)); border-bottom:1px solid rgba(15,23,42,0.04); padding:12px 16px; z-index:1190; }
+    .mobile-nav a{ display:block; padding:12px 8px; border-radius:8px; color:var(--text); text-decoration:none; font-weight:600; }
     .mobile-nav a + a{ margin-top:6px; }
 
-    /* Main layout: 上の余白をなくす（ヘッダー直下に配置） */
+    /* ===========================
+       Main（全体レイアウト）
+       =========================== */
     main{
-      padding-top:0; /* ヘッダーの下に直接配置するため0に */
+      padding-top:0;
       max-width:var(--max-width);
       margin:0 auto;
       padding-left:20px;
       padding-right:20px;
     }
 
-    /* セクションの幅を広げ */
+    /* ===========================
+       Hero（ホーム） — ヘッダーと少し重なるデザイン
+       =========================== */
+    .hero-wrap{
+      width:100vw;
+      position:relative;
+      left:50%;
+      right:50%;
+      margin-left:-50vw;
+      margin-right:-50vw;
+      overflow:hidden;
+      border-radius:0;
+      /* ヘッダー下に来る位置をヘッダー高さ - overlap に設定（重なり量は --hero-overlap） */
+      margin-top: calc(var(--header-height) - var(--hero-overlap));
+      z-index:1000;
+    }
+
+    .hero{
+      min-height: calc(100vh - var(--header-height) + var(--hero-overlap));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      color:#fff;
+      text-align:center;
+      padding:20px;
+      background-image: linear-gradient(180deg, rgba(0,0,0,0.22), rgba(0,0,0,0.10)), var(--hero-img);
+      background-size:cover;
+      background-position:center center;
+      background-repeat:no-repeat;
+    }
+    .hero.no-image{ background-image: linear-gradient(180deg, rgba(11,118,239,0.6), rgba(11,118,239,0.35)); }
+
+    .hero-inner{
+      width:100%;
+      max-width:1200px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      /* 上に詰める（負の値で上へ移動）してヘッダーと重なり合う見た目に */
+      transform: translateY(calc(-1 * var(--hero-overlap)));
+      /* テキストがヘッダーに隠れないように上パディングを確保 */
+      padding-top: calc(var(--hero-overlap) + 12px);
+      padding-bottom: 12px;
+    }
+
+    /* ===========================
+       ヒーロー内のテキスト（指定の3行）
+       - 1行目: 小サイズ（段落サイズと同じ）
+       - 2行目: 大きめ（強調）
+       - 3行目: 小サイズ（段落サイズと同じ）
+       =========================== */
+    .hero .line-small{
+      font-size:20px;           /* 1行目・3行目のサイズ（既存の段落サイズに合わせる） */
+      font-weight:700;
+      letter-spacing:0.6px;
+      color:rgba(255,255,255,0.96);
+      margin:0;
+    }
+
+    .hero .line-large{
+      font-size:56px;          /* 2行目の大きめサイズ */
+      font-weight:900;
+      margin:6px 0;
+      color:#fff;
+      line-height:1.02;
+      letter-spacing:0.4px;
+      text-transform:none;
+      text-shadow:0 10px 30px rgba(0,0,0,0.42);
+    }
+
+    /* 小さい補助スタイル（行の間隔調整） */
+    .hero .line-wrap{ display:flex; flex-direction:column; gap:8px; align-items:center; }
+
+    /* ===========================
+       各コンテンツセクション（幅を広げる）
+       =========================== */
     section{
       margin:36px 0;
       padding:28px;
@@ -175,144 +182,79 @@
       margin-left:auto;
       margin-right:auto;
     }
+    .wide-section{ max-width:calc(var(--max-width) + 200px); padding-left:36px; padding-right:36px; }
 
-    /* Hero full-bleed (画面幅いっぱい) */
-    .hero-wrap{
-      /* ビューポート幅いっぱいに広げるテクニック */
-      width:100vw;
-      position:relative;
-      left:50%;
-      right:50%;
-      margin-left:-50vw;
-      margin-right:-50vw;
-      overflow:hidden;
-      border-radius:0;
-      /* ヘッダー直下に詰めるため margin-top を header height に設定 */
-      margin-top:var(--header-height);
-    }
-
-    .hero{
-      min-height: calc(100vh - var(--header-height));
-      display:flex;
-      align-items:center;
-      justify-content:center; /* 中央寄せ（縦横中央） */
-      position:relative;
-      color:#fff;
-      text-align:center;
-      padding:28px 20px;
-      background-image: linear-gradient(180deg, rgba(0,0,0,0.28), rgba(0,0,0,0.18)), var(--hero-img);
-      background-size:cover;
-      background-position:center center;
-      background-repeat:no-repeat;
-    }
-    /* 画像が読み込めない場合のフォールバック */
-    .hero.no-image{
-      background-image: linear-gradient(180deg, rgba(11,118,239,0.6), rgba(11,118,239,0.35));
-    }
-
-    /* ヒーロー内コンテンツ（中央） */
-    .hero-inner{
-      width:100%;
-      max-width:1200px;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      padding:12px 24px;
-    }
-
-    .hero h1{
-      margin:0;
-      font-size:44px;
-      line-height:1.05;
-      font-weight:800;
-      text-shadow:0 8px 30px rgba(0,0,0,0.38);
-    }
-    .hero p{
-      margin:0;
-      color:rgba(255,255,255,0.96);
-      font-size:20px;
-      max-width:980px;
-      text-shadow:0 6px 20px rgba(0,0,0,0.32);
-    }
-
-    /* 他セクションの幅を広げる（デスクトップ） */
-    .wide-section{
-      max-width:calc(var(--max-width) + 200px);
-      padding-left:36px;
-      padding-right:36px;
-    }
-
-    /* レスポンシブ調整 */
-    @media (max-width:1200px){
-      :root{ --max-width:1100px; }
-      .hero h1{ font-size:38px; }
-      .hero p{ font-size:18px; }
-    }
-    @media (max-width:900px){
-      .hero h1{ font-size:32px; }
-      .hero p{ font-size:16px; }
-      .container{ padding:0 16px; }
-      main{ padding-left:16px; padding-right:16px; }
-      section{ padding:20px; margin:24px 0; }
-    }
-    @media (max-width:640px){
-      nav{ display:none; }
-      .hamburger{ display:flex; }
-      .mobile-nav{ display:none; }
-      main{ padding-top:0; }
-      .hero h1{ font-size:24px; }
-      .hero p{ font-size:14px; }
-      .hero-inner{ padding:8px; }
-      section{ padding:16px; margin:18px 0; }
-    }
-
-    /* ハンバーガー開閉アニメーション */
-    .hamburger.open .bar{
-      transform:rotate(45deg);
-    }
-    .hamburger.open .bar::before{
-      transform:rotate(90deg);
-      top:0;
-    }
-    .hamburger.open .bar::after{
-      transform:rotate(90deg);
-      bottom:0;
-      opacity:0;
-    }
-
-    /* セクションアンカーのオフセット（ヘッダー分を引く） */
-    .anchor-offset{
-      display:block;
-      position:relative;
-      top:calc(-1 * var(--header-height));
-      visibility:hidden;
-    }
-
-    /* 簡易スタイル（残りのセクション） */
     .greeting{ display:flex; gap:18px; align-items:flex-start; flex-wrap:wrap; }
     .greeting .photo{ width:140px; height:140px; border-radius:12px; background:linear-gradient(180deg,#fff,#f1f5f9); display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--accent); flex:0 0 140px; }
     .greeting .text{ flex:1 1 320px; color:var(--muted); font-size:16px; }
+
     .services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
     .service{ padding:20px; border-radius:12px; background:linear-gradient(180deg,#fff,#fbfdff); border:1px solid rgba(11,118,239,0.04); }
     .service h4{ margin:0 0 8px 0; font-size:18px; }
     .service p{ margin:0; color:var(--muted); font-size:15px; }
+
     .company-list{ display:flex; flex-direction:column; gap:10px; }
     .company-item{ display:flex; gap:16px; align-items:center; }
     .company-item .label{ min-width:140px; color:var(--muted); font-weight:700; }
+
     form{ display:grid; gap:12px; }
     input[type="text"], input[type="email"], textarea{ width:100%; padding:12px; border-radius:10px; border:1px solid rgba(15,23,42,0.08); font-size:15px; outline:none; background:#fff; }
     textarea{ min-height:140px; resize:vertical; }
     .form-row{ display:flex; gap:12px; }
     .form-row .col{ flex:1; }
     .btn{ display:inline-block; padding:12px 16px; background:var(--accent); color:#fff; border-radius:10px; text-decoration:none; font-weight:700; border:none; cursor:pointer; }
+
     footer{ text-align:center; color:var(--muted); font-size:14px; margin:36px 0 80px 0; }
+
+    /* ===========================
+       レスポンシブ
+       =========================== */
+    @media (max-width:1200px){
+      :root{ --max-width:1100px; }
+      .hero .line-large{ font-size:44px; }
+      .hero .line-small{ font-size:18px; }
+    }
+    @media (max-width:900px){
+      .hero .line-large{ font-size:36px; }
+      .hero .line-small{ font-size:16px; }
+      .container{ padding:0 16px; }
+      main{ padding-left:16px; padding-right:16px; }
+      section{ padding:20px; margin:24px 0; }
+      .services-grid{ grid-template-columns:repeat(2,1fr); }
+      :root{ --hero-overlap:18px; }
+      .hero-inner{ transform: translateY(calc(-1 * var(--hero-overlap))); padding-top: calc(var(--hero-overlap) + 12px); }
+    }
+    @media (max-width:640px){
+      nav{ display:none; }
+      .hamburger{ display:flex; }
+      .mobile-nav{ display:none; }
+      main{ padding-top:0; }
+      .hero .line-large{ font-size:28px; }
+      .hero .line-small{ font-size:14px; }
+      :root{ --hero-overlap:12px; }
+      .hero-inner{ transform: translateY(calc(-1 * var(--hero-overlap))); padding-top: calc(var(--hero-overlap) + 10px); }
+      section{ padding:16px; margin:18px 0; }
+      .services-grid{ grid-template-columns:1fr; }
+    }
+
+    /* ===========================
+       ハンバーガー開閉アニメーション
+       =========================== */
+    .hamburger.open .bar{ transform:rotate(45deg); }
+    .hamburger.open .bar::before{ transform:rotate(90deg); top:0; }
+    .hamburger.open .bar::after{ transform:rotate(90deg); bottom:0; opacity:0; }
+
+    /* ===========================
+       セクションアンカーのオフセット（ヘッダー分を引く）
+       =========================== */
+    .anchor-offset{ display:block; position:relative; top:calc(-1 * var(--header-height)); visibility:hidden; }
   </style>
 </head>
 <body>
 
+  <!-- ===========================
+       Header エリア（ヘッダー / ナビ）
+       =========================== -->
   <header>
     <div class="container">
       <a class="logo" href="#home" aria-label="ホームへ移動">
@@ -333,6 +275,7 @@
       </button>
     </div>
 
+    <!-- Mobile nav（ヘッダー直下に表示） -->
     <div class="mobile-nav" id="mobileNav" aria-hidden="true">
       <a href="#home" data-target="home" class="mobile-link">ホーム</a>
       <a href="#greeting" data-target="greeting" class="mobile-link">代表挨拶</a>
@@ -343,18 +286,32 @@
   </header>
 
   <main>
-    <!-- Home (full-bleed hero, ヘッダー直下に詰める) -->
+    <!-- ===========================
+         Home エリア（Hero / ホーム）
+         - ヘッダーと少し重なるように上に詰めたデザイン
+         - テキストを指定の3行に変更
+         =========================== -->
     <section id="home" class="hero-wrap" aria-labelledby="homeTitle">
       <span class="anchor-offset" id="homeAnchor"></span>
       <div class="hero" role="region" aria-label="ホーム">
         <div class="hero-inner">
-          <h1 id="homeTitle">信頼と成果を届けるパートナー</h1>
-          <p>私たちはお客様の課題に寄り添い、最適なソリューションを提供します。ビジネスを次のステージへ。</p>
+          <div class="line-wrap" aria-hidden="false">
+            <!-- 1行目（小サイズ = 段落サイズ） -->
+            <p class="line-small">＼ 集客 採用 認知拡大 ／</p>
+
+            <!-- 2行目（大きめ） -->
+            <div class="line-large" role="heading" aria-level="1">Digital Marketing</div>
+
+            <!-- 3行目（小サイズ = 段落サイズ） -->
+            <p class="line-small">あなたのブランドに、最高のストーリーを。</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Greeting -->
+    <!-- ===========================
+         Greeting エリア（代表挨拶）
+         =========================== -->
     <section id="greeting" class="wide-section" aria-labelledby="greetingTitle">
       <span class="anchor-offset" id="greetingAnchor"></span>
       <h2 id="greetingTitle">代表挨拶</h2>
@@ -367,7 +324,9 @@
       </div>
     </section>
 
-    <!-- Services -->
+    <!-- ===========================
+         Services エリア（サービス）
+         =========================== -->
     <section id="services" class="wide-section" aria-labelledby="servicesTitle">
       <span class="anchor-offset" id="servicesAnchor"></span>
       <h2 id="servicesTitle">サービス</h2>
@@ -387,7 +346,9 @@
       </div>
     </section>
 
-    <!-- Company -->
+    <!-- ===========================
+         Company エリア（会社概要）
+         =========================== -->
     <section id="company" class="wide-section" aria-labelledby="companyTitle">
       <span class="anchor-offset" id="companyAnchor"></span>
       <h2 id="companyTitle">会社概要</h2>
@@ -400,7 +361,9 @@
       </div>
     </section>
 
-    <!-- Contact -->
+    <!-- ===========================
+         Contact エリア（お問い合わせ）
+         =========================== -->
     <section id="contact" class="wide-section" aria-labelledby="contactTitle">
       <span class="anchor-offset" id="contactAnchor"></span>
       <h2 id="contactTitle">お問い合わせ</h2>
@@ -433,13 +396,18 @@
       </form>
     </section>
 
+    <!-- ===========================
+         Footer エリア（フッター）
+         =========================== -->
     <footer>
       © <span id="year"></span> 株式会社サンプル All rights reserved.
     </footer>
   </main>
 
   <script>
-    // DOM elements
+    /* ===========================
+       DOM 要素の取得（ナビ / モバイル / フォーム）
+       =========================== */
     const navLinks = document.querySelectorAll('.nav-link');
     const mobileLinks = document.querySelectorAll('.mobile-link');
     const hamburger = document.querySelector('.hamburger');
@@ -447,32 +415,32 @@
     const form = document.getElementById('contactForm');
     const formMsg = document.getElementById('formMsg');
 
-    // 年をセット
+    /* 年をセット */
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // スムーススクロール（アンカーオフセット対応）
+    /* スムーススクロール（アンカーオフセット対応） */
     function smoothScrollTo(id){
       const anchor = document.getElementById(id + 'Anchor');
       const el = anchor || document.getElementById(id);
       if(!el) return;
       const top = el.getBoundingClientRect().top + window.pageYOffset;
       const headerHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 64;
-      window.scrollTo({ top: top - headerHeight, behavior: 'smooth' });
+      const overlap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--hero-overlap')) || 28;
+      // スクロール位置はヘッダー分と重なり量を考慮して調整
+      window.scrollTo({ top: top - headerHeight + overlap, behavior: 'smooth' });
     }
 
-    // 内部リンクのクリック処理
+    /* 内部リンクのクリック処理 */
     document.querySelectorAll('[data-target]').forEach(a=>{
       a.addEventListener('click', (e)=>{
         e.preventDefault();
         const target = a.getAttribute('data-target');
-        if(hamburger.classList.contains('open')){
-          toggleMobile(false);
-        }
+        if(hamburger.classList.contains('open')) toggleMobile(false);
         smoothScrollTo(target);
       });
     });
 
-    // ハンバーガー開閉
+    /* ハンバーガー開閉 */
     function toggleMobile(force){
       const open = typeof force === 'boolean' ? force : !hamburger.classList.contains('open');
       hamburger.classList.toggle('open', open);
@@ -482,7 +450,7 @@
     }
     hamburger.addEventListener('click', ()=> toggleMobile());
 
-    // リサイズ時にモバイルメニューを閉じる
+    /* リサイズ時にモバイルメニューを閉じる */
     window.addEventListener('resize', ()=>{
       if(window.innerWidth > 640){
         mobileNav.style.display = 'none';
@@ -491,7 +459,7 @@
       }
     });
 
-    // スクロールでナビをハイライト
+    /* スクロールでナビをハイライト */
     const sections = [
       {id:'home', el: document.getElementById('home')},
       {id:'greeting', el: document.getElementById('greeting')},
@@ -499,14 +467,11 @@
       {id:'company', el: document.getElementById('company')},
       {id:'contact', el: document.getElementById('contact')}
     ];
-
     function onScroll(){
       const offset = window.pageYOffset + (window.innerHeight * 0.25);
       let current = 'home';
       for(const s of sections){
-        if(s.el.offsetTop <= offset){
-          current = s.id;
-        }
+        if(s.el.offsetTop <= offset) current = s.id;
       }
       navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('data-target') === current));
       mobileLinks.forEach(a => a.classList.toggle('active', a.getAttribute('data-target') === current));
@@ -514,7 +479,7 @@
     window.addEventListener('scroll', onScroll, {passive:true});
     onScroll();
 
-    // 簡易フォームバリデーション（ダミー送信）
+    /* 簡易フォームバリデーション（ダミー送信） */
     form.addEventListener('submit', (e)=>{
       e.preventDefault();
       formMsg.textContent = '';
@@ -523,21 +488,9 @@
       const email = form.email.value.trim();
       const message = form.message.value.trim();
 
-      if(!name){
-        formMsg.textContent = 'お名前を入力してください。';
-        form.name.focus();
-        return;
-      }
-      if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-        formMsg.textContent = '有効なメールアドレスを入力してください。';
-        form.email.focus();
-        return;
-      }
-      if(!message){
-        formMsg.textContent = 'お問い合わせ内容を入力してください。';
-        form.message.focus();
-        return;
-      }
+      if(!name){ formMsg.textContent = 'お名前を入力してください。'; form.name.focus(); return; }
+      if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ formMsg.textContent = '有効なメールアドレスを入力してください。'; form.email.focus(); return; }
+      if(!message){ formMsg.textContent = 'お問い合わせ内容を入力してください。'; form.message.focus(); return; }
 
       formMsg.textContent = '送信中...';
       setTimeout(()=>{
@@ -547,14 +500,12 @@
       }, 900);
     });
 
-    // Escapeでモバイルメニューを閉じる
+    /* Escapeでモバイルメニューを閉じる */
     document.addEventListener('keydown', (e)=>{
-      if(e.key === 'Escape' && hamburger.classList.contains('open')){
-        toggleMobile(false);
-      }
+      if(e.key === 'Escape' && hamburger.classList.contains('open')) toggleMobile(false);
     });
 
-    // ヒーロー画像の読み込みチェック（失敗時はフォールバック背景を適用）
+    /* ヒーロー画像の読み込みチェック（失敗時はフォールバック背景を適用） */
     (function checkHeroImage(){
       const rootStyle = getComputedStyle(document.documentElement);
       const heroImg = rootStyle.getPropertyValue('--hero-img').trim();
